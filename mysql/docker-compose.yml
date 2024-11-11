@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  MySQL:
+    image: mysql:8.4.0
+    container_name: MySQL
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init/privilege.sql:/docker-entrypoint-initdb.d/01-privilege.sql
+      - ./init/msghub-schema.sql:/docker-entrypoint-initdb.d/02-msghub-schema.sql
+      - ./init/donation-schema.sql:/docker-entrypoint-initdb.d/03-donation-schema.sql
+      - ./init/rd2-schema.sql:/docker-entrypoint-initdb.d/04-rd2-schema.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=000000
+      - MYSQL_SSL=DISABLED
+    user: "999:999"
+
+volumes:
+  mysql-data:
